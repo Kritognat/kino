@@ -30,7 +30,8 @@ function output(q) {
 
 function renderCard(cardObj) {
     let card = document.createElement("div");
-    
+    card.classList.add("card");
+
     let pic = document.createElement("img");
     pic.src = cardObj.Poster;
     card.append(pic);
@@ -51,7 +52,9 @@ function renderCard(cardObj) {
     }
     card.append(table);
 
-    
+    let btn = document.createElement("button");
+    btn.innerText = "Details";
+    card.append(btn);
 
     document.body.querySelector("main").append(card);
 }
