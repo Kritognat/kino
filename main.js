@@ -11,6 +11,7 @@ async function getJson(url) {
 let form = document.querySelector("#form");
 form.addEventListener("submit", function(e) {
     e.preventDefault();
+    $(".card").remove();
     let quer = form.title.value;
     let tp = form.type.value;
     
@@ -54,9 +55,57 @@ function renderCard(cardObj) {
 
     let btn = document.createElement("button");
     btn.innerText = "Details";
+    btn.addEventListener("click", function(e) {
+        e.preventDefault();
+        details(cardObj.Title)
+    });
     card.append(btn);
 
     document.body.querySelector("main").append(card);
+}
+
+function details(data) {
+    $(".details").remove();
+    getJson(`http://www.omdbapi.com/?apikey=b9468d4d&t=${data}`).then((value) => {
+        console.log(value);
+    
+
+
+        let detcard = document.createElement("div");
+        detcard.classList.add("details");
+        detcard.classList.add("card");
+
+        let pic = document.createElement("img");
+        pic.src = value.Poster;
+        detcard.append(pic);
+
+        let table = document.createElement("table");
+            table.append(crTableStr("Title:", value.Title));
+            table.append(crTableStr("Released:", value.Year));
+            table.append(crTableStr("Genre:", value.Genre));
+            table.append(crTableStr("Country:", value.Country));
+            table.append(crTableStr("Director:", value.Director));
+            table.append(crTableStr("Writer:", value.Writer));
+            table.append(crTableStr("Actors:", value.Actors));
+            table.append(crTableStr("Awards:", value.Awards));
+
+        detcard.append(table);
+        document.body.querySelector("main").prepend(detcard);
+    });
+    
+}
+
+function crTableStr(key, val) {
+    let tr = document.createElement("tr");
+            let th = document.createElement("th");
+            let td = document.createElement("td");
+            
+                th.innerText = key;
+                th.style.textAlign = "end";
+                td.innerText = val;
+            
+        tr.append(th, td);
+        return tr;
 }
 // Поскольку функция возвращает Promise, который ожидает загрузки файла,
 // необходимо дождаться окончания всех await в ней с помощью then.
