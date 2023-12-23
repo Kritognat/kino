@@ -16,10 +16,10 @@ form.addEventListener("submit", function(e) {
     let buff = searchMovie(form.title.value, form.type.value);
     console.log(buff);
     console.log(buff.length);
-    console.log(buff);
-    
     renderCard(buff[0]);
 });
+
+
 
 let strTest = new MyString("qwerty");
 let strTest2 = new MyString("qweeeerty");
@@ -33,6 +33,12 @@ strTest.insert(2, "X");
 console.log(strTest);
 strTest.toggle();
 console.log(strTest);
+
+let date = new MyDate("5, 15, 2100");
+console.log(date.showDate());
+console.log(date.isFuture());
+alert(date.isLeapYear());
+console.log(date.nextDay());
 
 
 
