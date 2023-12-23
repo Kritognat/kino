@@ -12,101 +12,30 @@ let form = document.querySelector("#form");
 form.addEventListener("submit", function(e) {
     e.preventDefault();
     $(".card").remove();
-    let quer = form.title.value;
-    let tp = form.type.value;
+    //console.log(searchMovie(form.title.value, form.type.value));
+    let buff = searchMovie(form.title.value, form.type.value);
+    console.log(buff);
+    console.log(buff.length);
+    console.log(buff);
     
-    //console.log(`http://www.omdbapi.com/?apikey=b9468d4d&s=${quer}&type=${tp}`);
-    output(`http://www.omdbapi.com/?apikey=b9468d4d&s=${quer}&type=${tp}`)
+    renderCard(buff[0]);
 });
 
-function output(q) {
-    getJson(q).then((value) => {
-        let array = value.Search;
-        array.forEach(element => {
-            renderCard(element)
-        });
-
-    });
-}
-
-function renderCard(cardObj) {
-    let card = document.createElement("div");
-    card.classList.add("card");
-
-    let pic = document.createElement("img");
-    pic.src = cardObj.Poster;
-    card.append(pic);
-    
-    
-    let table = document.createElement("table");
-    for ([key, value] of Object.entries(cardObj)) {
-        let tr = document.createElement("tr");
-        let th = document.createElement("th");
-        let td = document.createElement("td");
-        if (typeof(value) != "object" && key != "Poster" && key != "imdbID") {
-            th.innerText = key + ":";
-            th.style.textAlign = "end";
-            td.innerText = value;
-        }
-        tr.append(th, td);
-        table.append(tr);
-    }
-    card.append(table);
-
-    let btn = document.createElement("button");
-    btn.innerText = "Details";
-    btn.addEventListener("click", function(e) {
-        e.preventDefault();
-        details(cardObj.Title)
-    });
-    card.append(btn);
-
-    document.body.querySelector("main").append(card);
-}
-
-function details(data) {
-    $(".details").remove();
-    getJson(`http://www.omdbapi.com/?apikey=b9468d4d&t=${data}`).then((value) => {
-        console.log(value);
-    
+let strTest = new MyString("qwerty");
+let strTest2 = new MyString("qweeeerty");
+console.log(strTest2.counter('e'));
+strTest2.trimSign();
+console.log(strTest2.counter('e'));
+console.log(strTest2);
+strTest.remove(-4);
+console.log(strTest);
+strTest.insert(2, "X");
+console.log(strTest);
+strTest.toggle();
+console.log(strTest);
 
 
-        let detcard = document.createElement("div");
-        detcard.classList.add("details");
-        detcard.classList.add("card");
 
-        let pic = document.createElement("img");
-        pic.src = value.Poster;
-        detcard.append(pic);
-
-        let table = document.createElement("table");
-            table.append(crTableStr("Title:", value.Title));
-            table.append(crTableStr("Released:", value.Year));
-            table.append(crTableStr("Genre:", value.Genre));
-            table.append(crTableStr("Country:", value.Country));
-            table.append(crTableStr("Director:", value.Director));
-            table.append(crTableStr("Writer:", value.Writer));
-            table.append(crTableStr("Actors:", value.Actors));
-            table.append(crTableStr("Awards:", value.Awards));
-
-        detcard.append(table);
-        document.body.querySelector("main").prepend(detcard);
-    });
-    
-}
-
-function crTableStr(key, val) {
-    let tr = document.createElement("tr");
-            let th = document.createElement("th");
-            let td = document.createElement("td");
-            
-                th.innerText = key;
-                th.style.textAlign = "end";
-                td.innerText = val;
-            
-        tr.append(th, td);
-        return tr;
-}
 // Поскольку функция возвращает Promise, который ожидает загрузки файла,
 // необходимо дождаться окончания всех await в ней с помощью then.
 // Результат работы (ответ от сервера при успешном выпонлении) будет сохранён
